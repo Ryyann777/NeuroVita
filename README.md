@@ -125,9 +125,9 @@ Hoje tudo é fictício. Os pontos que precisam ser trocados estão marcados com 
 
 ## Equipe
 
-- _Nome 1_ — front-end
-- _Nome 2_ — front-end
-- _Nome(s) do design e do back-end_
+- _Ryan_ — front-end
+- _Yuri_ — front-end
+
 
 ## Licença
 
