@@ -131,4 +131,4 @@ Hoje tudo é fictício. Os pontos que precisam ser trocados estão marcados com 
 
 ## Licença
 
-Projeto acadêmico, sem licença definida.
+Projeto acadêmico, Faculdade Brasília.
