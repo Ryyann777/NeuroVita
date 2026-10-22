@@ -1,0 +1,41 @@
+<section class="cartao agenda">
+  <header class="cartao-topo">
+    <h2 class="cartao-titulo">Agenda do dia</h2>
+    <span class="agenda-data">
+      {{ data() }}
+      <app-icone nome="calendario" />
+    </span>
+  </header>
+
+  <ul class="agenda-lista">
+    @for (item of itens(); track item.hora) {
+      <li class="agenda-linha" [class.agenda-linha-com-menu]="menuAcoes()">
+        <span class="agenda-hora">{{ item.hora }}</span>
+        <div class="agenda-info">
+          <span class="linha-nome">{{ item.paciente }}</span>
+          <span class="linha-tipo">{{ item.tipo }}</span>
+        </div>
+        <app-tag-diagnostico [tag]="item.tag" />
+        @if (menuAcoes()) {
+          <!-- TODO: abrir as ações da consulta (editar, remarcar, cancelar). -->
+          <button type="button" class="botao-pontinhos" aria-label="Mais ações">
+            <app-icone nome="pontinhos" />
+          </button>
+        }
+      </li>
+    }
+  </ul>
+
+  @if (rota(); as destino) {
+    <a class="cartao-rodape" [routerLink]="destino">
+      Ver agenda completa
+      <app-icone nome="seta-longa" />
+    </a>
+  } @else {
+    <!-- TODO: ligar à tela de Agenda deste perfil. -->
+    <button type="button" class="cartao-rodape">
+      Ver agenda completa
+      <app-icone nome="seta-longa" />
+    </button>
+  }
+</section>

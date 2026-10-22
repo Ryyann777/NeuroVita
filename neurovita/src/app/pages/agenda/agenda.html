@@ -1,0 +1,113 @@
+<div class="pg">
+  <app-titulo-pagina titulo="Agenda" subtitulo="Gerencie os atendimentos da clínica de forma simples e eficiente" />
+
+  <div class="ag-grade-geral">
+    <section class="cartao ag-principal">
+      <div class="ag-barra">
+        <button type="button" class="ag-hoje" (click)="irParaHoje()"><app-icone nome="calendario" /> Hoje</button>
+        <div class="ag-setas">
+          <button type="button" aria-label="Semana anterior" (click)="irPara(-1)"><app-icone nome="seta-esquerda" /></button>
+          <button type="button" aria-label="Próxima semana" (click)="irPara(1)"><app-icone nome="seta-direita" /></button>
+        </div>
+        <button type="button" class="ag-faixa" (click)="abrirCalendario()">
+          <app-icone nome="calendario" /> {{ faixa() }}
+          <input #seletorData type="date" class="ag-data-oculta" tabindex="-1" aria-label="Escolher uma data" (change)="escolherData($event)" />
+        </button>
+        <label class="pg-busca ag-busca">
+          <input type="search" placeholder="Buscar pacientes..." aria-label="Buscar pacientes" [value]="busca()" (input)="busca.set($any($event.target).value)" />
+          <app-icone nome="busca" />
+        </label>
+      </div>
+
+      <div class="ag-rolagem">
+        <div class="ag-grade" role="grid" aria-label="Agenda semanal">
+          <div class="ag-canto">Hora</div>
+          @for (d of dias(); track d.iso) {
+            <div class="ag-dia" [class.ag-dia-hoje]="d.hoje" [style.grid-column]="$index + 2">{{ d.nome }}<br />{{ d.texto }}</div>
+          }
+          @for (h of horarios; track h; let i = $index) {
+            <div class="ag-hora" [style.grid-row]="i + 2">{{ h }}</div>
+            @for (c of colunas; track c) {
+              <div class="ag-celula" [class.ag-celula-hoje]="dias()[c].hoje" [style.grid-row]="i + 2" [style.grid-column]="c + 2"></div>
+            }
+          }
+          @for (e of eventos(); track e.id + e.iso) {
+            <button
+              type="button" class="ag-evento ag-{{ e.status }}" [class.ag-evento-apagado]="!e.destaque" [class.ag-evento-ativo]="e.selecionado"
+              [style.grid-column]="e.dia + 2" [style.grid-row]="e.linha + ' / span ' + e.trechos"
+              [attr.aria-label]="e.paciente.nome + ', ' + e.inicio + ', ' + rotulo[e.status]"
+              (click)="selecionar(e.id, e.iso)"
+            >
+              <strong>{{ e.paciente.nome }}</strong>
+              <span>{{ e.tipo }}</span>
+              @if (e.trechos > 1) {
+                <small>{{ e.profissional }}</small>
+              }
+            </button>
+          }
+        </div>
+      </div>
+    </section>
+
+    <aside class="ag-lateral">
+      <section class="cartao ag-caixa">
+        <h2 class="ag-caixa-titulo"><app-icone nome="calendario" /> Resumo da agenda</h2>
+        <p class="ag-caixa-sub">Hoje - {{ dataHoje }}</p>
+        <ul class="ag-legenda">
+          @for (r of resumo(); track r.classe) {
+            <li><span class="ag-ponto ag-ponto-{{ r.classe }}"></span> {{ r.valor }} {{ r.rotulo }}</li>
+          }
+        </ul>
+      </section>
+
+      <section class="cartao ag-caixa">
+        <h2 class="ag-caixa-titulo">Próximo atendimento</h2>
+        @if (proximo(); as p) {
+          <ul class="ag-info">
+            <li><app-icone nome="relogio" /> {{ p.inicio }}</li>
+            <li><app-icone nome="prancheta" /> {{ p.tipo }}</li>
+            <li><app-icone nome="local" /> {{ p.sala }}</li>
+          </ul>
+        } @else {
+          <p class="ag-caixa-sub">Nenhum atendimento para hoje.</p>
+        }
+      </section>
+
+      <section class="cartao ag-caixa">
+        <h2 class="ag-caixa-titulo">Paciente selecionado</h2>
+        @if (escolhido(); as s) {
+          <div class="ag-paciente">
+            <app-avatar [nome]="s.paciente.nome" />
+            <div>
+              <p class="linha-nome">{{ s.paciente.nome }}</p>
+              <p class="linha-tipo">{{ s.paciente.idade }} anos</p>
+              <p class="ag-contato"><app-icone nome="telefone" /> {{ s.paciente.telefone }}</p>
+            </div>
+          </div>
+          <p class="ag-contato ag-contato-email"><app-icone nome="email" /> {{ s.paciente.email }}</p>
+          <ul class="ag-info ag-info-quando">
+            <li><app-icone nome="calendario" /><span><strong>{{ rotulo[s.status] }}</strong><small>{{ s.inicio }}</small><small>{{ s.dataBR }}</small></span></li>
+            <li><app-icone nome="usuario" /><span><strong>Profissional</strong><small>{{ s.profissional }}</small></span></li>
+          </ul>
+          <div class="ag-status" #menuStatusRaiz>
+            <button type="button" class="ag-status-botao" aria-haspopup="menu" [attr.aria-expanded]="menuStatus()" (click)="menuStatus.set(!menuStatus())">
+              <app-icone nome="calendario" /> {{ rotulo[s.status] }} <app-icone nome="seta-baixo" />
+            </button>
+            @if (menuStatus()) {
+              <div class="ag-status-menu" role="menu">
+                @for (st of statusLista; track st) {
+                  <button type="button" role="menuitem" (click)="trocarStatus(st)">
+                    <span class="ag-ponto ag-ponto-{{ st }}"></span> {{ rotulo[st] }}
+                    @if (st === s.status) { <app-icone nome="check" /> }
+                  </button>
+                }
+              </div>
+            }
+          </div>
+        } @else {
+          <p class="ag-caixa-sub">Clique em um atendimento para ver os detalhes.</p>
+        }
+      </section>
+    </aside>
+  </div>
+</div>
