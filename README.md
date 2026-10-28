@@ -1,141 +1,408 @@
-📖 Sobre o projeto
+# 🧠 NeuroVita
 
-O NeuroVita é um sistema web para clínicas que atendem pacientes de neurodesenvolvimento (como TEA e TDAH). Ele organiza a agenda, o cadastro de pacientes e profissionais e o prontuário, com um painel diferente para cada tipo de usuário.
+Sistema web para gerenciamento de clínicas especializadas em neurodesenvolvimento, com foco no atendimento de pacientes com condições como TEA e TDAH.
 
-Este repositório contém o front-end, desenvolvido em Angular e fiel ao protótipo do Figma da equipe de design. Hoje ele funciona de ponta a ponta com dados de teste em memória, prontos para serem trocados por chamadas à API quando o back-end estiver pronto.
+O NeuroVita centraliza o gerenciamento de pacientes, profissionais, consultas, agendas e prontuários, oferecendo interfaces e permissões específicas para cada perfil de usuário.
 
-⚠️ Todos os nomes, CPFs, telefones e e-mails do projeto são fictícios.
+Atualmente, o projeto contempla o **front-end desenvolvido em Angular**, seguindo o protótipo criado pela equipe de design no Figma. O sistema funciona com dados fictícios em memória e está estruturado para futura integração com o back-end.
 
-✨ Funcionalidades por perfil
+> ⚠️ **Aviso:** todos os nomes, CPFs, telefones e e-mails utilizados no projeto são fictícios.
 
-O sistema tem 4 perfis. As telas são parecidas, mas o menu, os botões e as permissões mudam conforme quem entrou.
+---
 
-Perfil	O que faz
-🧠 Psicólogo	Vê a agenda do dia e o calendário. Consulta pacientes e abre o prontuário com evoluções, laudos, encaminhamentos, avaliações psicológicas e atestados. Acompanha a agenda semanal e altera o status das consultas.
-🩺 Psiquiatra	Mesmo fluxo do psicólogo, com as seções do prontuário próprias da psiquiatria: evoluções, laudos, medicamentos e prescrições, atestados médicos e solicitação de exames.
-🗂️ Secretária	Acompanha os números do dia. Cadastra, edita e exclui pacientes, consulta os profissionais, agenda consultas vendo só os horários livres e, na agenda, confirma, remarca ou cancela consultas.
-🛠️ Administrador	Visão geral da clínica. Só consulta pacientes. Cadastra, edita, inativa e exclui profissionais (com dias, horários e tipo de atendimento) e secretárias, e acompanha a agenda.
-Destaques
-Editor de texto para os documentos do prontuário, com estilos, tamanho, negrito, itálico, sublinhado, cor, alinhamento, links, imagens, listas e tela cheia.
-Disponibilidade do profissional valendo de verdade: ao agendar, só aparecem os horários dos dias, faixas e tipo de atendimento (online ou presencial) que o profissional atende, sem choque com outras consultas.
-Dados compartilhados entre os perfis: o que a secretária agenda aparece na agenda do psicólogo, e o que o administrador cadastra aparece nas listas dos outros.
-Proteção ao excluir: um profissional com consultas marcadas não pode ser excluído, apenas inativado.
-Formulários validados: CPF (com dígito verificador), telefone, e-mail, datas e responsável obrigatório para menores de 18 anos, com máscaras de CPF e telefone.
-Upload, download e compartilhamento de documentos.
-Janelas de confirmação em todas as ações importantes, como no protótipo.
-Layout responsivo e rótulos de acessibilidade nos botões, campos e janelas.
-🛠️ Tecnologias
-Angular 21 com componentes standalone, signals e controle de fluxo nativo (@if, @for)
-TypeScript
-CSS puro, em um único arquivo (src/styles.css), sem bibliotecas de interface
-Fonte Poppins
-Ícones em SVG próprios (componente app-icone)
-🚀 Como rodar
+## 📑 Sumário
 
-Requisitos: Node.js (versão LTS atual) e o Angular CLI.
+- [✨ Funcionalidades](#-funcionalidades)
+- [👥 Perfis de usuário](#-perfis-de-usuário)
+- [🛠️ Tecnologias utilizadas](#️-tecnologias-utilizadas)
+- [🚀 Como executar o projeto](#-como-executar-o-projeto)
+- [🔑 Contas para teste](#-contas-para-teste)
+- [🧭 Rotas da aplicação](#-rotas-da-aplicação)
+- [📁 Estrutura do projeto](#-estrutura-do-projeto)
+- [⚙️ Funcionamento interno](#️-funcionamento-interno)
+- [🔌 Integração com o back-end](#-integração-com-o-back-end)
+- [🗺️ Roadmap](#️-roadmap)
+- [👨‍💻 Equipe](#-equipe)
+- [📄 Licença](#-licença)
 
-bash
-# 1. Clonar o repositório
+---
+
+## ✨ Funcionalidades
+
+- 📅 Visualização e gerenciamento de agendas e consultas.
+- 👤 Cadastro, edição, consulta e exclusão de pacientes, conforme as permissões do perfil.
+- 🩺 Gerenciamento de prontuários e documentos clínicos.
+- 📝 Editor de texto para criação e edição de documentos.
+- 📎 Upload, download e compartilhamento de documentos.
+- 🕒 Verificação da disponibilidade dos profissionais durante o agendamento.
+- 🔄 Compartilhamento de dados entre os diferentes perfis.
+- ✅ Validação de formulários e campos obrigatórios.
+- 🔐 Telas de login e recuperação de senha.
+- 💬 Janelas de confirmação para ações importantes.
+- 📱 Layout responsivo e recursos de acessibilidade.
+
+### Recursos de validação
+
+- CPF com verificação dos dígitos.
+- Máscaras para CPF e telefone.
+- Validação de e-mail, telefone e datas.
+- Obrigatoriedade de responsável para pacientes menores de 18 anos.
+
+### Editor de documentos
+
+O editor de texto oferece recursos de formatação, incluindo:
+
+- Negrito, itálico e sublinhado.
+- Alteração de tamanho e cor do texto.
+- Alinhamento e estilos de texto.
+- Inserção de links, imagens e listas.
+- Modo de tela cheia.
+
+### Regras de disponibilidade e exclusão
+
+- O agendamento considera os dias, horários e modalidades de atendimento do profissional.
+- Os horários ocupados não devem ser disponibilizados para novas consultas.
+- Profissionais com consultas agendadas não podem ser excluídos, apenas inativados.
+
+---
+
+## 👥 Perfis de usuário
+
+O sistema possui quatro perfis, cada um com menus, funcionalidades e permissões específicas.
+
+| Perfil | Funcionalidades principais |
+|---|---|
+| 🧠 **Psicólogo** | Consulta a agenda diária e semanal, acessa pacientes e gerencia documentos do prontuário, incluindo evoluções, laudos, encaminhamentos, avaliações psicológicas e atestados. |
+| 🩺 **Psiquiatra** | Consulta a agenda e os pacientes, além de gerenciar evoluções, laudos, medicamentos, prescrições, atestados médicos e solicitações de exames. |
+| 🗂️ **Secretária** | Cadastra, edita e exclui pacientes; consulta profissionais; agenda consultas; confirma, remarca e cancela atendimentos. |
+| 🛠️ **Administrador** | Visualiza informações gerais da clínica, consulta pacientes, gerencia profissionais e secretárias e acompanha a agenda. |
+
+---
+
+## 🛠️ Tecnologias utilizadas
+
+| Tecnologia | Utilização |
+|---|---|
+| Angular 21 | Desenvolvimento da aplicação web |
+| TypeScript | Lógica e tipagem do sistema |
+| Standalone Components | Organização dos componentes |
+| Angular Signals | Gerenciamento reativo de estado |
+| `@if` e `@for` | Controle de fluxo nos templates |
+| CSS puro | Estilização da aplicação |
+| Fonte Poppins | Identidade visual |
+| SVG | Ícones personalizados por meio do componente `app-icone` |
+
+O projeto utiliza CSS puro, centralizado no arquivo `src/styles.css`, sem bibliotecas externas de interface.
+
+---
+
+## 🚀 Como executar o projeto
+
+### 1. Pré-requisitos
+
+Antes de começar, instale:
+
+- [Node.js](https://nodejs.org/) — versão LTS compatível com o projeto.
+- [Git](https://git-scm.com/).
+- [Angular CLI](https://angular.dev/tools/cli), caso necessário.
+
+### 2. Clone o repositório
+
+```bash
 git clone https://github.com/SEU-USUARIO/NOME-DO-REPOSITORIO.git
+```
 
-# 2. Entrar na pasta do projeto (a que tem o package.json)
+> Substitua `SEU-USUARIO` e `NOME-DO-REPOSITORIO` pelos dados reais do repositório.
+
+### 3. Entre na pasta do projeto
+
+```bash
 cd NOME-DO-REPOSITORIO
+```
 
-# 3. Instalar as dependências
+Entre na pasta que contém o arquivo `package.json`.
+
+### 4. Instale as dependências
+
+```bash
 npm install
+```
 
-# 4. Rodar
+### 5. Inicie a aplicação
+
+```bash
 npm start
+```
 
-Depois abra http://localhost:4200 no navegador.
+### 6. Acesse no navegador
 
-Windows / PowerShell: se aparecer o erro de "execução de scripts desabilitada", rode uma vez Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser e abra o terminal de novo.
+Abra o endereço:
 
-Comando	Para que serve
-npm start	Servidor de desenvolvimento (atualiza sozinho ao salvar)
-npm run build	Gera a versão de produção em dist/
-npm test	Roda os testes
-🔑 Contas de teste
+[http://localhost:4200](http://localhost:4200)
 
-Na tela de login, ao clicar no campo de e-mail aparece a lista com as contas abaixo. A senha de todas é 123456.
+### Comandos disponíveis
 
-Perfil	E-mail	Tela inicial
-Psicólogo	psicologo@neurovita.com	/psicologo
-Psiquiatra	psiquiatra@neurovita.com	/psiquiatra
-Secretária	secretaria@neurovita.com	/secretaria
-Administrador	admin@neurovita.com	/admin
+| Comando | Descrição |
+|---|---|
+| `npm start` | Inicia o servidor de desenvolvimento. |
+| `npm run build` | Gera a versão de produção na pasta `dist/`. |
+| `npm test` | Executa os testes configurados no projeto. |
 
-O e-mail não diferencia maiúsculas de minúsculas. Em cada tela, o menu com a setinha ao lado do usuário tem o botão Sair.
+> **Windows / PowerShell:** se ocorrer um erro informando que a execução de scripts está desabilitada, verifique as políticas de execução do PowerShell. Uma alternativa é executar o comando abaixo no terminal do usuário, se apropriado:
+>
+> ```powershell
+> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+> ```
 
-🧭 Rotas
-Endereço	Tela
-/	Login
-/esqueci-senha, /codigo, /redefinir-senha	Recuperação de senha
-/psicologo · /psiquiatra · /secretaria · /admin	Tela inicial de cada perfil
-/psicologo/pacientes · /psiquiatra/pacientes	Lista de pacientes
-/{perfil}/pacientes/:id	Prontuário do paciente
-/{perfil}/pacientes/:id/:secao	Seção do prontuário (lista ou texto)
-/{perfil}/pacientes/:id/:secao/novo	Novo documento
-/{perfil}/pacientes/:id/:secao/:docId	Ler um documento
-/{perfil}/pacientes/:id/:secao/:docId/editar	Editar um documento
-/psicologo/agenda · /psiquiatra/agenda · /secretaria/agenda · /admin/agenda	Agenda semanal
-/secretaria/pacientes · /secretaria/pacientes/novo · /secretaria/pacientes/:id/editar	Pacientes (cadastrar, editar, excluir)
-/secretaria/profissionais	Profissionais (consulta)
-/secretaria/consultas	Gerenciamento de consultas (agendar)
-/admin/pacientes	Pacientes (só consulta)
-/admin/profissionais · /admin/profissionais/novo · /admin/profissionais/:id/editar	Profissionais
-/admin/secretarias · /admin/secretarias/novo · /admin/secretarias/:id/editar	Secretárias
-qualquer outro	Página não encontrada
+---
 
-:secao no psicólogo: evolucoes, laudos, encaminhamentos, avaliacoes ou atestados. No psiquiatra: evolucoes, laudos, medicamentos, atestadosMedicos ou exames.
+## 🔑 Contas para teste
 
-🗂️ Estrutura do projeto
+Na tela de login, ao selecionar o campo de e-mail, são disponibilizadas contas de demonstração.
+
+**Senha padrão para todas as contas:** `123456`
+
+| Perfil | E-mail | Tela inicial |
+|---|---|---|
+| Psicólogo | `psicologo@neurovita.com` | `/psicologo` |
+| Psiquiatra | `psiquiatra@neurovita.com` | `/psiquiatra` |
+| Secretária | `secretaria@neurovita.com` | `/secretaria` |
+| Administrador | `admin@neurovita.com` | `/admin` |
+
+**Observações:**
+- O e-mail não diferencia letras maiúsculas de minúsculas.
+- Para sair do sistema, utilize o menu ao lado do usuário e selecione **Sair**.
+- As contas são destinadas exclusivamente a testes e demonstrações.
+
+---
+
+## 🧭 Rotas da aplicação
+
+### Autenticação
+
+| Rota | Descrição |
+|---|---|
+| `/` | Tela de login |
+| `/esqueci-senha` | Solicitação de recuperação de senha |
+| `/codigo` | Tela de verificação de código |
+| `/redefinir-senha` | Redefinição de senha |
+
+### Pacientes e prontuários
+
+| Rota | Descrição |
+|---|---|
+| `/psicologo/pacientes` | Lista de pacientes do psicólogo |
+| `/psiquiatra/pacientes` | Lista de pacientes do psiquiatra |
+| `/{perfil}/pacientes/:id` | Prontuário do paciente |
+| `/{perfil}/pacientes/:id/:secao` | Seção do prontuário |
+| `/{perfil}/pacientes/:id/:secao/novo` | Criação de documento |
+| `/{perfil}/pacientes/:id/:secao/:docId` | Leitura de documento |
+| `/{perfil}/pacientes/:id/:secao/:docId/editar` | Edição de documento |
+
+### Agendas
+
+| Rota | Descrição |
+|---|---|
+| `/psicologo/agenda` | Agenda do psicólogo |
+| `/psiquiatra/agenda` | Agenda do psiquiatra |
+| `/secretaria/agenda` | Agenda da secretária |
+| `/admin/agenda` | Agenda do administrador |
+
+### Gestão de pacientes
+
+| Rota | Descrição |
+|---|---|
+| `/secretaria/pacientes` | Consulta e gerenciamento de pacientes |
+| `/secretaria/pacientes/novo` | Cadastro de paciente |
+| `/secretaria/pacientes/:id/editar` | Edição de paciente |
+| `/admin/pacientes` | Consulta de pacientes |
+
+### Gestão de profissionais e consultas
+
+| Rota | Descrição |
+|---|---|
+| `/secretaria/profissionais` | Consulta de profissionais |
+| `/secretaria/consultas` | Agendamento e gerenciamento de consultas |
+| `/admin/profissionais` | Lista de profissionais |
+| `/admin/profissionais/novo` | Cadastro de profissional |
+| `/admin/profissionais/:id/editar` | Edição de profissional |
+| `/admin/secretarias` | Lista de secretárias |
+| `/admin/secretarias/novo` | Cadastro de secretária |
+| `/admin/secretarias/:id/editar` | Edição de secretária |
+
+Qualquer rota não reconhecida direciona para a página **Não encontrada**.
+
+### Seções do prontuário
+
+As seções disponíveis variam de acordo com o perfil profissional.
+
+**Psicólogo:**
+- `evolucoes`
+- `laudos`
+- `encaminhamentos`
+- `avaliacoes`
+- `atestados`
+
+**Psiquiatra:**
+- `evolucoes`
+- `laudos`
+- `medicamentos`
+- `atestadosMedicos`
+- `exames`
+
+> As rotas acima documentam os caminhos previstos na aplicação. Consulte `src/app/app.routes.ts` para verificar a configuração exata de cada rota.
+
+---
+
+## 📁 Estrutura do projeto
+
+```text
 src/
-  styles.css                  → todo o visual do projeto
-  app/
-    app.routes.ts             → rotas de todos os perfis
-    pages/                    → uma pasta por tela
-      login/  esqueci-senha/  codigo/  redefinir-senha/  nao-encontrada/
-      painel-shell/           → moldura com o menu lateral
-      painel-inicio/          → tela inicial dos 4 perfis
-      pacientes/  prontuario/  secao-paciente/  documento-leitura/  documento-editor/  agenda/
-      gestao-pacientes/  paciente-form/  consulta-form/        → secretária
-      profissionais/  profissional-form/  secretarias/  secretaria-form/   → administrador
-    shared/                   → o que é usado em mais de uma tela
-      auth.ts                 → login de teste
-      perfil.ts               → os 4 perfis e o que muda em cada um
-      clinica/                → pacientes, profissionais, consultas e documentos (dados + serviço)
-      editor-texto/  menu-lateral/  cabecalho/  lista-suspensa/  dialogo/  ...
-public/img/                   → logo e imagens
-🧩 Como funciona por dentro
-Uma tela, vários perfis: páginas como pacientes, prontuário e agenda são as mesmas para vários perfis. O perfil chega pela rota e define o endereço-base, o menu, as seções e o que aparece (shared/perfil.ts).
-Uma única fonte de dados: o serviço Clinica (shared/clinica/clinica.ts) guarda pacientes, profissionais, secretárias, consultas e documentos, e todos os perfis leem dele.
-Disponibilidade: Clinica.disponivel e Clinica.horarioLivre decidem se um horário pode ser marcado.
-Editor de texto: shared/editor-texto. O conteúdo é HTML, limpo por limparHtml (shared/util.ts) antes de ser exibido.
-🔌 Ligando ao back-end
+├── styles.css
+├── app/
+│   ├── app.routes.ts
+│   ├── pages/
+│   │   ├── login/
+│   │   ├── esqueci-senha/
+│   │   ├── codigo/
+│   │   ├── redefinir-senha/
+│   │   ├── nao-encontrada/
+│   │   ├── painel-shell/
+│   │   ├── painel-inicio/
+│   │   ├── pacientes/
+│   │   ├── prontuario/
+│   │   ├── secao-paciente/
+│   │   ├── documento-leitura/
+│   │   ├── documento-editor/
+│   │   ├── agenda/
+│   │   ├── gestao-pacientes/
+│   │   ├── paciente-form/
+│   │   ├── consulta-form/
+│   │   ├── profissionais/
+│   │   ├── profissional-form/
+│   │   ├── secretarias/
+│   │   └── secretaria-form/
+│   └── shared/
+│       ├── auth.ts
+│       ├── perfil.ts
+│       ├── clinica/
+│       ├── editor-texto/
+│       ├── menu-lateral/
+│       ├── cabecalho/
+│       ├── lista-suspensa/
+│       └── dialogo/
+└── public/
+    └── img/
+```
 
-Hoje tudo é fictício. Os pontos a trocar estão marcados com TODO no código.
+### Principais diretórios e arquivos
 
-Login: shared/auth.ts. Trocar por uma chamada à API. O servidor deve devolver o perfil do usuário (psicologo, psiquiatra, secretaria ou admin). Depois, remover a lista de e-mails de teste em pages/login.
-Pacientes, profissionais, consultas e documentos: shared/clinica/clinica.ts guarda tudo em memória (some ao recarregar a página). Trocar os métodos por chamadas HTTP, mantendo os mesmos tipos (shared/clinica/modelos.ts).
-Dados de demonstração: shared/clinica/dados-clinica.ts, shared/dados-demo.ts e shared/dados-agenda.ts (inclui o "hoje" fixo de 15/09/2026).
-Arquivos enviados: hoje usam endereços temporários do navegador. No back-end, enviar o arquivo de verdade.
-Texto formatado: repetir no servidor a limpeza do HTML antes de gravar.
-Contas e senhas: os formulários de profissional e secretária geram uma senha temporária e guardam o e-mail de acesso. O back-end precisa gravar a senha com segurança e enviar o e-mail de boas-vindas.
-Rotas protegidas: hoje qualquer pessoa abre as telas pelo endereço. Quando o login for real, proteger com um guard e liberar cada perfil só para as próprias telas.
-🗺️ Roadmap
- Login e recuperação de senha (visual)
- Telas dos 4 perfis seguindo o protótipo do Figma
- Prontuário com editor de texto e upload de arquivos
- Agenda, agendamento com horários livres e edição de consultas
- Cadastro, edição e exclusão de pacientes, profissionais e secretárias
- Configurações, Ajuda e notificações (sino)
- Integração com o back-end
- Proteção de rotas por perfil
- Testes automatizados das telas principais
-👥 Equipe
-Nome  — Ryan Brandão
+| Caminho | Responsabilidade |
+|---|---|
+| `src/styles.css` | Estilos globais da aplicação |
+| `src/app/app.routes.ts` | Configuração das rotas |
+| `src/app/pages/` | Páginas e telas do sistema |
+| `src/app/shared/auth.ts` | Autenticação de demonstração |
+| `src/app/shared/perfil.ts` | Perfis e regras de apresentação |
+| `src/app/shared/clinica/` | Dados, modelos e serviços da clínica |
+| `src/app/shared/editor-texto/` | Editor de documentos |
+| `src/app/shared/menu-lateral/` | Menu de navegação |
+| `src/app/shared/cabecalho/` | Cabeçalho das telas |
+| `src/app/shared/dialogo/` | Janelas de confirmação |
+| `src/app/shared/lista-suspensa/` | Componentes de lista suspensa |
+| `public/img/` | Logotipo e imagens |
 
-📄 Licença
+A estrutura acima representa a organização funcional informada para o projeto. Alguns arquivos auxiliares e subdiretórios podem variar conforme a versão atual do código.
 
-Projeto acadêmico, Faculdade Brasília.
+---
+
+## ⚙️ Funcionamento interno
+
+### Reutilização de telas
+
+Páginas como pacientes, prontuário e agenda são compartilhadas entre diferentes perfis. O perfil acessado determina o menu, as seções e os recursos exibidos.
+
+Essa lógica é centralizada em `shared/perfil.ts`.
+
+### Gerenciamento dos dados
+
+O serviço `shared/clinica/clinica.ts` concentra os dados de pacientes, profissionais, secretárias, consultas e documentos.
+
+Os diferentes perfis utilizam essa fonte compartilhada, permitindo que as alterações sejam refletidas nas demais telas durante a execução da aplicação.
+
+**Importante:** atualmente, os dados ficam em memória e são perdidos ao recarregar a página.
+
+### Disponibilidade de horários
+
+Os métodos `Clinica.disponivel` e `Clinica.horarioLivre` verificam a disponibilidade dos profissionais para o agendamento de consultas.
+
+### Editor de texto
+
+O editor está localizado em `shared/editor-texto/`. O conteúdo formatado é armazenado em HTML e passa pela função `limparHtml`, em `shared/util.ts`, antes de ser exibido.
+
+---
+
+## 🔌 Integração com o back-end
+
+O sistema utiliza dados fictícios e ainda precisa de integração com um back-end real. Os pontos de adaptação estão identificados com comentários `TODO` no código.
+
+| Recurso | Situação atual | Próxima etapa |
+|---|---|---|
+| Login | Autenticação de demonstração | Integrar com a API de autenticação |
+| Pacientes | Dados em memória | Persistir e consultar dados via API |
+| Profissionais | Dados em memória | Integrar cadastro, edição e inativação |
+| Secretárias | Dados em memória | Integrar cadastro e gerenciamento |
+| Consultas | Dados em memória | Persistir agendamentos e validar conflitos no servidor |
+| Documentos | Dados em memória e endereços temporários | Implementar armazenamento real de arquivos |
+| Prontuários | Conteúdo gerenciado no front-end | Persistir documentos com validação e controle de acesso |
+| Recuperação de senha | Telas visuais | Implementar fluxo real de recuperação |
+| Permissões | Rotas acessíveis diretamente | Implementar proteção de rotas e autorização no servidor |
+
+### Pontos de atenção para a integração
+
+- **Autenticação:** substituir a lógica de `shared/auth.ts` por chamadas à API e remover as contas de demonstração da tela de login.
+- **Modelos de dados:** manter compatibilidade com os tipos definidos em `shared/clinica/modelos.ts`, quando apropriado.
+- **Dados de demonstração:** revisar `shared/clinica/dados-clinica.ts`, `shared/dados-demo.ts` e `shared/dados-agenda.ts`, incluindo a data fixa de 15/09/2026.
+- **Arquivos:** substituir os endereços temporários do navegador pelo envio e armazenamento real dos documentos.
+- **Segurança:** validar e limpar o HTML no servidor antes de salvar ou exibir conteúdo formatado.
+- **Contas de acesso:** armazenar senhas com mecanismos seguros de hash e implementar o envio de e-mails de boas-vindas.
+- **Proteção de rotas:** restringir o acesso às telas conforme o perfil autenticado, com validação também no back-end.
+
+> 🔒 **Nota de segurança:** como o NeuroVita trabalha com informações de saúde, a integração futura deve prever controles rigorosos de acesso, proteção de dados pessoais, registros de auditoria e requisitos aplicáveis da LGPD.
+
+---
+
+## 🗺️ Roadmap
+
+### Funcionalidades desenvolvidas
+
+- [x] Telas de login e recuperação de senha (interface visual).
+- [x] Interfaces dos quatro perfis seguindo o protótipo do Figma.
+- [x] Prontuário com editor de texto e suporte a arquivos.
+- [x] Agenda e agendamento com verificação de horários disponíveis.
+- [x] Cadastro e gerenciamento de pacientes, profissionais e secretárias.
+
+### Próximas etapas
+
+- [ ] Integração com o back-end.
+- [ ] Autenticação real e recuperação de senha funcional.
+- [ ] Persistência de dados em banco de dados.
+- [ ] Proteção de rotas e permissões por perfil.
+- [ ] Implementação completa do armazenamento de documentos.
+- [ ] Configurações, ajuda e notificações.
+- [ ] Testes automatizados das principais funcionalidades.
+
+---
+
+## 👨‍💻 Equipe
+
+**Ryan Brandão**
+
+Projeto acadêmico desenvolvido para a Faculdade Brasília.
+
+---
+
+## 📄 Licença
+
+Projeto acadêmico desenvolvido para fins educacionais na Faculdade Brasília.
+
