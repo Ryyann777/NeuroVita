@@ -2,12 +2,13 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideRouter, withComponentInputBinding, withRouterConfig } from '@angular/router';
 
 import { routes } from './app.routes';
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     // withComponentInputBinding: parâmetros da URL (ex.: ?sucesso=true) viram input() nas páginas
     // paramsInheritanceStrategy 'always': as telas filhas recebem também o `data` do pai (ex.: o perfil)
-    provideRouter(routes, withComponentInputBinding(), withRouterConfig({ paramsInheritanceStrategy: 'always' })),
+    provideRouter(routes, withComponentInputBinding(), withRouterConfig({ paramsInheritanceStrategy: 'always' })), provideHttpClient(),
   ],
 };
